@@ -1,0 +1,14 @@
+IF
+	True()
+THEN
+	RESPONSE #100
+		CutSceneID(Player1)
+		MoveViewObject("IMOEN2",INSTANT)
+ActionOverride("IMOEN2",ApplySpell("IMOEN2",WIZARD_FINGER_OF_DEATH_IGNORE_RESISTANCE))
+		Wait(1)  
+		CreateVisualEffectObject("SPSTRENH","IMOEN2")
+		ActionOverride("IMOEN2",DestroySelf())
+		Wait(2)  
+		EndCutSceneMode()
+		ActionOverride(Player1,StartDialog("player1",Player1))
+END

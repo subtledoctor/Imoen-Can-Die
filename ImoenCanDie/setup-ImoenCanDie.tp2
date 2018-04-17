@@ -1,0 +1,86 @@
+
+BACKUP ~ImoenCanDie/backup~
+AUTHOR ~xxx~  
+
+
+VERSION ~1~
+
+//README ~ImoenCanDie/readme.%LANGUAGE%.txt~
+
+
+AUTO_TRA ~ImoenCanDie/Tra/%s~
+
+ALWAYS
+
+
+  ACTION_IF GAME_IS ~bgt~ THEN BEGIN
+    OUTER_SPRINT ~ENDOFBG1_2~ ~Global("ENDOFBG1","GLOBAL",2)~
+  END
+
+  ACTION_IF GAME_IS ~eet bg2ee~ THEN BEGIN
+    OUTER_SPRINT ~ENDOFBG1_2~ ~True()~
+  END
+
+  ACTION_IF (GAME_IS ~tob~ AND NOT GAME_IS ~bgt~) THEN BEGIN
+    OUTER_SPRINT ~ENDOFBG1_2~ ~True()~
+  END
+
+
+
+//////////////////////////////////////////////////////////////////////
+/* all following actions are only processed ONCE for the whole mod, independent of un- and reinstalling of single components */
+
+
+
+  ACTION_IF !FILE_EXISTS ~ImoenCanDie/Install/ImoenCanDieinstall.mrk~ BEGIN
+
+
+
+
+//CamDawgs CD_STATE_NOTVALID zum Checken der Dialogfähigkeit eines Char
+//Thank you very much, CamDawg!
+    APPEND ~STATE.IDS~ ~0x80101FEF CD_STATE_NOTVALID~ UNLESS ~CD_STATE_NOTVALID~
+
+
+    /* BGII:EE, EET - formatted texts etc. */
+    ACTION_DEFINE_ARRAY fl#noconvert BEGIN setup END
+
+    ACTION_DEFINE_ARRAY fl#reload BEGIN game END
+
+      LAF HANDLE_CHARSETS
+        INT_VAR
+          infer_charset = 1
+        STR_VAR
+          tra_path = EVAL ~ImoenCanDie/Tra~
+          noconvert_array = fl#noconvert
+          reload_array = fl#reload
+      END
+
+
+
+
+    COPY ~ImoenCanDie/install/component.xx~ ~ImoenCanDie/Install/ImoenCanDieinstall.mrk~
+ 
+
+
+  END // ImoenCanDieinstall.mrk
+
+
+END //ALWAYS
+
+
+
+
+LANGUAGE ~English~
+         ~english~   
+         ~ImoenCanDie/Tra/english/setup.tra~
+
+BEGIN @0
+
+
+/* Give player choice to let Imoen die in Spellhold */
+
+COMPILE ~ImoenCanDie/c#icd001.baf~
+COMPILE EVALUATE_BUFFER ~ImoenCanDie/imoen_maze.d~
+
+
